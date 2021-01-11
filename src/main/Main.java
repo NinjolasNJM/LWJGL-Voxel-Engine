@@ -24,7 +24,7 @@ public class Main implements Runnable{
 					{1, 1, 1, 1},
 					{0, 0, 0, 0},
 					{0, 0, 0, 0},
-					{0, 4, 0, 0}
+					{6, 7, 8, 9}
 				}, {
 					{1, 1, 1, 1},
 					{0, 0, 0, 0},
@@ -46,7 +46,7 @@ public class Main implements Runnable{
 	public BlockGrid chunk = new BlockGrid(4, 4, 4, atlas);
 	public BlockGrid chunk1 = new BlockGrid(1, 1, 1, atlas1);
 	
-	public BlockGrid active = chunk1;
+	public BlockGrid active = chunk;
 	
 	//public GameObject steve = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(player));
 	

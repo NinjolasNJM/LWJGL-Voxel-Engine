@@ -48,7 +48,7 @@ public class Block{
 		};
 	}
 	
-	public static Vertex[] blockVertices(Vector2f s, Vector2f n, Vector2f w, Vector2f e, Vector2f t, Vector2f b, Vector3f pos) {
+	/*public static Vertex[] blockVertices(Vector2f s, Vector2f n, Vector2f w, Vector2f e, Vector2f t, Vector2f b, Vector3f pos) {
 		return new Vertex[] {
 				//South face
 				new Vertex(new Vector3f( 0.5f + pos.getX(),  0.5f + pos.getY(), -0.5f + pos.getZ()), new Vector2f((s.getX()) / 256, (s.getY()) / 256)),
@@ -133,7 +133,7 @@ public class Block{
 				new Vertex(new Vector3f( 0.5f + pos.getX(), -0.5f + pos.getY(),-0.5f + pos.getZ()), new Vector2f((b.getX() + 16) / 256, (b.getY() + 16) / 256)),
 				new Vertex(new Vector3f( 0.5f + pos.getX(), -0.5f + pos.getY(), 0.5f + pos.getZ()), new Vector2f((b.getX() + 16) / 256, (b.getY()) / 256)),
 		};
-	}
+	} */
 
 	public static int[] blockIndices = new int[] {
 			//Back face

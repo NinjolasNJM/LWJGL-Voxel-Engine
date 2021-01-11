@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
+import engine.maths.Vector3f;
+
 public class Mesh {
 	private Vertex[] vertices;
 	private int[] indices;
@@ -119,19 +121,27 @@ public class Mesh {
 		int length = indices1.length + indices2.length;
 		int[] result = new int[length];
 		
+		int highest = 0;
 		int pos = 0;
         for (int element : indices1) {
             result[pos] = element;
+            if (element > highest) {
+            	highest = element;
+            }
             pos++;
         }
 
         for (int element : indices2) {
-            result[pos] = element + (indices1.length + 12);
+            result[pos] = element + highest + 1;
             pos++;
         }
 		
-		
+		System.out.println("length " + indices1.length + " + length " + indices2.length + " = length " + length + ", pos was " + pos);
 		return result;
+	}
+	
+	public static Mesh translate(Mesh mesh, Vector3f pos) {
+		return new Mesh(Vertex.translate(mesh.getVertices(), pos), mesh.getIndices(), mesh.getMaterial());
 	}
 
 	public Vertex[] getVertices() {

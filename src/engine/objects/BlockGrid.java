@@ -48,8 +48,11 @@ public class BlockGrid {
 	private Mesh stone = new Mesh(Block.blockVertices(s, s, s, s, s, s), Block.blockIndices, terrain);
 	private Mesh iron = new Mesh(Block.blockVertices(i, i, i, i, i, i), Block.blockIndices, terrain);
 	private Mesh diamond = new Mesh(Block.blockVertices(a, a, a, a, a, a), Block.blockIndices, terrain);
+	private Mesh diamond1 = Mesh.translate(diamond, new Vector3f(0, 1, 0));
+	private Mesh diamond2 = Mesh.translate(diamond, new Vector3f(0, 2, 0));
 	private Mesh grass = new Mesh(Block.blockVertices(g, g, g, g, t, d), Block.blockIndices, terrain);
-	private Mesh ditto = Mesh.combine(iron, diamond); 
+	private Mesh ditto = Mesh.combine(iron, diamond1); 
+	private Mesh ditto1 = Mesh.combine(Mesh.combine(iron, diamond1), diamond2); 
 	
 	private int[][][] map;
 	
@@ -116,8 +119,11 @@ public class BlockGrid {
 		stone.create();
 		iron.create();
 		diamond.create();
+		diamond1.create();
+		diamond2.create();
 		grass.create();
-		//ditto.create();
+		ditto.create();
+		ditto1.create();
 		//debug.create();
 		//blockMesh().create();
 		
@@ -145,8 +151,20 @@ public class BlockGrid {
 					case 5:
 						type = iron;
 						break;
-					default:
+					case 6:
 						type = diamond;
+						break;
+					case 7:
+						type = diamond1;
+						break;
+					case 8:
+						type = ditto;
+						break;
+					case 9:
+						type = ditto1;
+						break;
+					default:
+						type = dirt;
 						break;
 					}
 					grid[i][j][k] = new GameObject(new Vector3f((float) i, (float) j, (float) k), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), type);
@@ -161,8 +179,11 @@ public class BlockGrid {
 		stone.destroy();
 		iron.destroy();
 		diamond.destroy();
+		diamond1.destroy();
+		diamond2.destroy();
 		grass.destroy();
-		//ditto.destroy();
+		ditto.destroy();
+		ditto.destroy();
 		//debug.destroy();
 		//blockMesh().destroy();
 	}
