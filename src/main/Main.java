@@ -39,14 +39,14 @@ public class Main implements Runnable{
 	};
 	public int[][][] atlas1 = {
 			{
-				{2, 0}
+				{2}
 			}
 	};
 
-	public BlockGrid chunk = new BlockGrid(1, 1, 1, atlas1);
-	public BlockGrid chunk1 = new BlockGrid(4, 4, 4, atlas1);
+	public BlockGrid chunk = new BlockGrid(4, 4, 4, atlas);
+	public BlockGrid chunk1 = new BlockGrid(1, 1, 1, atlas1);
 	
-	public BlockGrid active = chunk;
+	public BlockGrid active = chunk1;
 	
 	//public GameObject steve = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(player));
 	
@@ -58,7 +58,7 @@ public class Main implements Runnable{
 		renderer = new Renderer(window, shader);
 		window.setBackgroundColor(0.4f, 0.7f, 1.0f);
 		window.create();
-		chunk.create();
+		active.create();
 		shader.create();
 		
 		
@@ -70,7 +70,7 @@ public class Main implements Runnable{
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_F5)) window.setFullScreen(!window.isFullScreen());
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) return;
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_O)) active.reload(4, 4, 4, atlas);
-			if (Input.isKeyPressed(GLFW.GLFW_KEY_P)) active.reload(4, 4, 4, atlas1);
+			if (Input.isKeyPressed(GLFW.GLFW_KEY_P)) active.reload(1, 1, 1, atlas1);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) window.mouseState(true);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) window.mouseState(false);
 			update();
@@ -100,7 +100,7 @@ public class Main implements Runnable{
 	
 	private void close() {
 		window.destroy();
-		chunk.destroy();
+		active.destroy();
 		shader.destroy();
 	}
 	
