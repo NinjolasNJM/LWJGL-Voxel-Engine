@@ -9,7 +9,7 @@ import engine.maths.Vector3f;
 public class BlockGrid {
 	private int x, y, z;
 	private Material terrain = new Material("/textures/terrain.png");
-	//private GameObject[][][] grid = new GameObject[x][y][z];
+	private GameObject[][][] grid = new GameObject[x][y][z];
 	
 	private Vector2f d = new Vector2f(32.0f, 0.0f);
 	private Vector2f w = new Vector2f(64.0f, 0.0f);
@@ -19,7 +19,7 @@ public class BlockGrid {
 	private Vector2f g = new Vector2f(48.0f, 0.0f);
 	private Vector2f t = new Vector2f(0.0f, 0.0f);
 	
-	private Vector2f[] grass = {
+	/*private Vector2f[] grass = {
 			g, g, g, g, t, d
 	};
 	private Vector2f[] dirt = {
@@ -36,24 +36,24 @@ public class BlockGrid {
 	};
 	private Vector2f[] diamond = {
 			a, a, a, a, a, a
-	};
+	}; */
 	
 	private Vertex[] airVertices = {};
 	private int[] airIndices = Block.blockIndices;
 	
-	private GameObject grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
-	/*private Mesh air = new Mesh(airVertices, airIndices, terrain);
+	//private GameObject grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
+	private Mesh air = new Mesh(airVertices, airIndices, terrain);
 	private Mesh dirt = new Mesh(Block.blockVertices(d, d, d, d, d, d), Block.blockIndices, terrain);
 	private Mesh wood = new Mesh(Block.blockVertices(w, w, w, w, w, w), Block.blockIndices, terrain);
 	private Mesh stone = new Mesh(Block.blockVertices(s, s, s, s, s, s), Block.blockIndices, terrain);
 	private Mesh iron = new Mesh(Block.blockVertices(i, i, i, i, i, i), Block.blockIndices, terrain);
 	private Mesh diamond = new Mesh(Block.blockVertices(a, a, a, a, a, a), Block.blockIndices, terrain);
-	private Mesh grass = new Mesh(Block.blockVertices(grass, new Vector3f(0, 0, 0)), Block.blockIndices, terrain);
-	private Mesh ditto = Mesh.combine(iron, diamond); */
+	private Mesh grass = new Mesh(Block.blockVertices(g, g, g, g, t, d), Block.blockIndices, terrain);
+	private Mesh ditto = Mesh.combine(iron, diamond); 
 	
 	private int[][][] map;
 	
-	private Mesh blockMesh() {
+	/*private Mesh blockMesh() {
 		Mesh result = new Mesh(Block.blockVertices(g, g, g, g, g, g), Block.blockIndices, terrain);
 		
 		for(int i = 0; i < x; i++) {
@@ -92,11 +92,11 @@ public class BlockGrid {
 					
 				}
 			}
-		}
+		} 
 			
 		//System.out.println("Grid Indices is " + result.getIndices().toString());
 		return result;
-	}
+	} */
 	//private Mesh debug = new Mesh(Block.blockVertices, Block.blockIndices, new Material("/textures/debug2.png"));
 
 	
@@ -104,23 +104,24 @@ public class BlockGrid {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		grid = new GameObject[x][y][z];
 		this.map = map;
-		grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
+		//grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
 		
 	}
 	
 	public void create() {
-		//dirt.create();
-		//wood.create();
-		//stone.create();
-		//iron.create();
-		//diamond.create();
-		//grass.create();
+		dirt.create();
+		wood.create();
+		stone.create();
+		iron.create();
+		diamond.create();
+		grass.create();
 		//ditto.create();
 		//debug.create();
-		blockMesh().create();
+		//blockMesh().create();
 		
-		/*for(int i = 0; i < x; i++) {
+		for(int i = 0; i < x; i++) {
 			for(int j = 0; j < y; j++) {
 				for(int k = 0; k < z; k++) {
 					Mesh type;
@@ -151,19 +152,19 @@ public class BlockGrid {
 					grid[i][j][k] = new GameObject(new Vector3f((float) i, (float) j, (float) k), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), type);
 				}
 			}
-		}*/
+		}
 	}
 	
 	public void destroy() {
-		//dirt.destroy();
-		//wood.destroy();
-		//stone.destroy();
-		//iron.destroy();
-		//diamond.destroy();
-		//grass.destroy();
+		dirt.destroy();
+		wood.destroy();
+		stone.destroy();
+		iron.destroy();
+		diamond.destroy();
+		grass.destroy();
 		//ditto.destroy();
 		//debug.destroy();
-		blockMesh().destroy();
+		//blockMesh().destroy();
 	}
 	
 	public void reload(int x, int y, int z, int[][][] map) {
@@ -171,12 +172,13 @@ public class BlockGrid {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
+		grid = new GameObject[x][y][z];
+		//grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
 		this.map = map;
 		create();
 	}
 
-	public GameObject getGrid() {
+	public GameObject[][][] getGrid() {
 		return grid;
 	}
 

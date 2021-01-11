@@ -44,7 +44,7 @@ public class Main implements Runnable{
 	};
 
 	public BlockGrid chunk = new BlockGrid(1, 1, 1, atlas1);
-	//public BlockGrid chunk1 = new BlockGrid(4, 4, 4, atlas1);
+	public BlockGrid chunk1 = new BlockGrid(4, 4, 4, atlas1);
 	
 	public BlockGrid active = chunk;
 	
@@ -87,14 +87,14 @@ public class Main implements Runnable{
 	}
 	
 	private void render() {
-		//for (int i = 0; i < active.getX(); i++) {
-		//	for (int j = 0; j < active.getY(); j++) {
-		//		for(int k = 0; k < active.getZ(); k++) {
-		//			renderer.renderObject(active.getGrid()[i][j][k], camera);
-		//		}
-		//	}
-		//}
-		renderer.renderObject(chunk.getGrid(), camera);
+		for (int i = 0; i < active.getX(); i++) {
+			for (int j = 0; j < active.getY(); j++) {
+				for(int k = 0; k < active.getZ(); k++) {
+					renderer.renderObject(active.getGrid()[i][j][k], camera);
+				}
+			}
+		}
+		//renderer.renderObject(chunk.getGrid(), camera);
 		window.swapBuffers();
 	}
 	

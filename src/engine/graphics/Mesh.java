@@ -126,7 +126,7 @@ public class Mesh {
         }
 
         for (int element : indices2) {
-            result[pos] = element + (indices1.length / 2);
+            result[pos] = element + (indices1.length + 12);
             pos++;
         }
 		
