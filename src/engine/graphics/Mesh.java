@@ -9,6 +9,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
+import engine.maths.Vector3f;
+import engine.objects.Block;
+
 public class Mesh {
 	private Vertex[] vertices;
 	private int[] indices;
@@ -94,6 +97,35 @@ public class Mesh {
 		int[] indices = concatIndices(mesh1.getIndices(), mesh2.getIndices());
 		Mesh result = new Mesh(vertices, indices, mesh1.getMaterial());
 		
+		//System.out.println("Combined meshes " + mesh1 + " and " + mesh2);
+		return result;
+	}
+	
+	public static Mesh cuboid(Mesh mesh, Vector3f size) {
+		Mesh result = new Mesh(Block.airVertices, Block.blockIndices, Block.terrain);
+		
+		for(int i = 0; i < size.getX(); i++) {
+			for(int j = 0; j < size.getY(); j++) {
+				for(int k = 0; k < size.getZ(); k++) {
+					result = Mesh.combine(result, Mesh.translate(mesh, new Vector3f((float) i, (float) j, (float) k)));
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public static Mesh blockMesh(Block[][][] grid) {
+		Mesh result = new Mesh(Block.airVertices, Block.blockIndices, Block.terrain);
+		
+		for(int i = 0; i < grid.length; i++) {
+			for(int j = 0; j < grid[i].length; j++) {
+				for(int k = 0; k < grid[i][j].length; k++) {
+					result = Mesh.combine(result, Mesh.translate(grid[i][j][k].getMesh(), new Vector3f((float) i, (float) j, (float) k)));
+				}
+			}
+		}
+		//System.out.println("grid1");
 		return result;
 	}
 	
@@ -119,19 +151,26 @@ public class Mesh {
 		int length = indices1.length + indices2.length;
 		int[] result = new int[length];
 		
+		int highest = 0;
 		int pos = 0;
         for (int element : indices1) {
             result[pos] = element;
+            if (element > highest) {
+            	highest = element;
+            }
             pos++;
         }
 
         for (int element : indices2) {
-            result[pos] = element + (indices1.length + 12);
+            result[pos] = element + highest + 1;
             pos++;
         }
 		
-		
 		return result;
+	}
+	
+	public static Mesh translate(Mesh mesh, Vector3f pos) {
+		return new Mesh(Vertex.translate(mesh.getVertices(), pos), mesh.getIndices(), mesh.getMaterial());
 	}
 
 	public Vertex[] getVertices() {
