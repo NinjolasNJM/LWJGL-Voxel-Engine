@@ -11,7 +11,6 @@ import org.lwjgl.system.MemoryUtil;
 
 import engine.maths.Vector3f;
 import engine.objects.Block;
-import engine.objects.GameObject;
 
 public class Mesh {
 	private Vertex[] vertices;
@@ -116,7 +115,7 @@ public class Mesh {
 		return result;
 	}
 	
-	public static Mesh blockMesh(GameObject[][][] grid) {
+	public static Mesh blockMesh(Block[][][] grid) {
 		Mesh result = new Mesh(Block.airVertices, Block.blockIndices, Block.terrain);
 		
 		for(int i = 0; i < grid.length; i++) {

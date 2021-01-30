@@ -125,10 +125,6 @@ public class Main implements Runnable{
 	
 	public BlockGrid active = chunk;
 	
-	public Vector2f w = new Vector2f(64.0f, 0.0f);
-	public Mesh wood = new Mesh(Block.blockVertices(w, w, w, w, w, w), Block.blockIndices, Block.terrain);
-	public GameObject grid1;
-	
 	//public GameObject steve = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(player));
 	
 	public Camera camera = new Camera(new Vector3f(0, 0, 1), new Vector3f(0, 0, 0));
@@ -140,19 +136,9 @@ public class Main implements Runnable{
 		window.setBackgroundColor(0.4f, 0.7f, 1.0f);
 		window.create();
 		active.create();
-		grid1Create();
 		shader.create();
 		
 		
-	}
-
-	private void grid1Create() {
-		BlockGrid active1 = new BlockGrid(shape);
-		active1.create();
-		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(active1.getGrid()));
-		Mesh woodMesh =  Mesh.blockMesh(active1.getGrid());
-		woodMesh.create();
-		grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), woodMesh);
 	}
 
 	public void run() {
@@ -178,14 +164,7 @@ public class Main implements Runnable{
 	}
 	
 	private void render() {
-		for (int i = 0; i < active.getX(); i++) {
-			for (int j = 0; j < active.getY(); j++) {
-				for(int k = 0; k < active.getZ(); k++) {
-					renderer.renderObject(active.getGrid()[i][j][k], camera);
-				}
-			}
-		}
-		renderer.renderObject(grid1, camera);
+		renderer.renderObject(active, camera);
 		window.swapBuffers();
 	}
 	

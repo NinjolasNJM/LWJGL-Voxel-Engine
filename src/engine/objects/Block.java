@@ -1,14 +1,23 @@
 package engine.objects;
 
 import engine.graphics.Material;
+import engine.graphics.Mesh;
 import engine.graphics.Vertex;
 import engine.maths.Vector2f;
 import engine.maths.Vector3f;
 
-public class Block{
+public class Block implements GameObject{
 	
+	private Vector3f position, rotation, scale;
+	private Mesh mesh;
 	
-	
+	public Block(Vector3f position, Vector3f rotation, Vector3f scale, Mesh mesh) {
+		this.position = position;
+		this.rotation = rotation;
+		this.scale = scale;
+		this.mesh = mesh;
+	}
+
 	public static Vertex[] blockVertices(Vector2f s, Vector2f n, Vector2f w, Vector2f e, Vector2f t, Vector2f b) {
 		return new Vertex[] {
 				//South face
@@ -552,5 +561,21 @@ public class Block{
 	
 	public static Material terrain = new Material("/textures/terrain.png");
 	public static Vertex[] airVertices = {};
+
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	public Vector3f getRotation() {
+		return rotation;
+	}
+
+	public Vector3f getScale() {
+		return scale;
+	}
+
+	public Mesh getMesh() {
+		return mesh;
+	}
 
 }

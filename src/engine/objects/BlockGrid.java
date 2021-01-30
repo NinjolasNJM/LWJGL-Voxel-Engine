@@ -4,12 +4,14 @@ import engine.graphics.Material;
 import engine.graphics.Mesh;
 import engine.maths.Vector2f;
 import engine.maths.Vector3f;
-import main.Main;
 
-public class BlockGrid {
+public class BlockGrid implements GameObject{
+	private Vector3f position, rotation, scale;
+	private Mesh mesh;
+	
 	private int[][][] map;
 	//private int x, y, z;
-	private GameObject[][][] grid; // = new GameObject[map.length][map[0].length][map[0][0].length];
+	private Block[][][] grid; // = new GameObject[map.length][map[0].length][map[0][0].length];
 	private Material terrain = Block.terrain;
 	private Vector2f d = new Vector2f(32.0f, 0.0f);
 	private Vector2f w = new Vector2f(64.0f, 0.0f);
@@ -35,15 +37,17 @@ public class BlockGrid {
 	
 	
 	//private Mesh debug = new Mesh(Block.blockVertices, Block.blockIndices, new Material("/textures/debug2.png"));
-	private GameObject grid1; // = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
 	
 	public BlockGrid(int[][][] map) {
+		this.position = new Vector3f(0, 0, 0);
+		this.rotation = new Vector3f(0, 0, 0);
+		this.scale = new Vector3f(1, 1, 1);
 		this.map = map;
 		int x = map.length;
 		int y = map[0].length;
 		int z = map[0][0].length;
-		grid = new GameObject[x][y][z];
-		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
+		grid = new Block[x][y][z];
+		//create();
 
 		
 		
@@ -103,13 +107,12 @@ public class BlockGrid {
 						type = dirt;
 						break;
 					}
-					grid[i][j][k] = new GameObject(new Vector3f((float) i, (float) j, (float) k), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), type);
+					grid[i][j][k] = new Block(new Vector3f((float) i, (float) j, (float) k), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), type);
 				}
 			}
 		}
-		
-		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(new BlockGrid(Main.shape).getGrid()));
-		
+		mesh = Mesh.blockMesh(grid);
+		mesh.create();
 	}
 	
 	public void destroy() {
@@ -124,7 +127,7 @@ public class BlockGrid {
 		ditto.destroy();
 		ditto1.destroy();
 		//debug.destroy();
-		//blockMesh().destroy();
+		mesh.destroy();
 	}
 	
 	public void reload(int[][][] map) {
@@ -133,7 +136,7 @@ public class BlockGrid {
 		int x = map.length;
 		int y = map[0].length;
 		int z = map[0][0].length;
-		grid = new GameObject[x][y][z];
+		grid = new Block[x][y][z];
 		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
 		//this.map = map;
 		create();
@@ -143,12 +146,8 @@ public class BlockGrid {
 		reload(newGrid.getMap());
 	}
 
-	public GameObject[][][] getGrid() {
+	public Block[][][] getGrid() {
 		return grid;
-	}
-	
-	public GameObject getGrid1() {
-		return grid1;
 	}
 
 	public int getX() {
@@ -165,6 +164,22 @@ public class BlockGrid {
 	
 	public int[][][] getMap() {
 		return map;
+	}
+
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	public Vector3f getRotation() {
+		return rotation;
+	}
+
+	public Vector3f getScale() {
+		return scale;
+	}
+
+	public Mesh getMesh() {
+		return mesh;
 	}
 	
 }
