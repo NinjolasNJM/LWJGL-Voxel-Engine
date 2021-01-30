@@ -1,5 +1,6 @@
 package engine.objects;
 
+import engine.graphics.Material;
 import engine.graphics.Vertex;
 import engine.maths.Vector2f;
 import engine.maths.Vector3f;
@@ -548,5 +549,8 @@ public class Block{
 			140, 141, 143,
 			143, 141, 142,
 	};
+	
+	public static Material terrain = new Material("/textures/terrain.png");
+	public static Vertex[] airVertices = {};
 
 }

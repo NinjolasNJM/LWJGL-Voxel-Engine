@@ -39,14 +39,95 @@ public class Main implements Runnable{
 	};
 	public int[][][] atlas1 = {
 			{
-				{2}
+				{10}
 			}
 	};
-
-	public BlockGrid chunk = new BlockGrid(4, 4, 4, atlas);
-	public BlockGrid chunk1 = new BlockGrid(1, 1, 1, atlas1);
+	
+	public static int[][][] shape = {
+			{
+				{6, 6, 6, 6, 6, 6, 6, 6},
+				{6, 5, 5, 6, 6, 5, 5, 6},
+				{6, 5, 5, 6, 6, 5, 5, 6},
+				{6, 5, 5, 5, 5, 5, 5, 6},
+				{6, 2, 2, 5, 5, 2, 2, 6},
+				{6, 5, 5, 5, 5, 5, 5, 6},
+				{6, 4, 5, 5, 5, 5, 4, 6},
+				{6, 4, 2, 2, 2, 2, 4, 6}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			}, {
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0, 0}
+			},
+			
+	};
+			
+	public BlockGrid chunk = new BlockGrid(atlas);
+	public BlockGrid chunk1 = new BlockGrid(atlas1);
 	
 	public BlockGrid active = chunk;
+	
+	public Vector2f w = new Vector2f(64.0f, 0.0f);
+	public Mesh wood = new Mesh(Block.blockVertices(w, w, w, w, w, w), Block.blockIndices, Block.terrain);
+	public GameObject grid1;
 	
 	//public GameObject steve = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(player));
 	
@@ -59,9 +140,19 @@ public class Main implements Runnable{
 		window.setBackgroundColor(0.4f, 0.7f, 1.0f);
 		window.create();
 		active.create();
+		grid1Create();
 		shader.create();
 		
 		
+	}
+
+	private void grid1Create() {
+		BlockGrid active1 = new BlockGrid(shape);
+		active1.create();
+		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(active1.getGrid()));
+		Mesh woodMesh =  Mesh.blockMesh(active1.getGrid());
+		woodMesh.create();
+		grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), woodMesh);
 	}
 
 	public void run() {
@@ -69,8 +160,8 @@ public class Main implements Runnable{
 		while (!window.shouldClose()) {
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_F5)) window.setFullScreen(!window.isFullScreen());
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) return;
-			if (Input.isKeyPressed(GLFW.GLFW_KEY_O)) active.reload(4, 4, 4, atlas);
-			if (Input.isKeyPressed(GLFW.GLFW_KEY_P)) active.reload(1, 1, 1, atlas1);
+			if (Input.isKeyPressed(GLFW.GLFW_KEY_O)) active.reload(chunk);
+			if (Input.isKeyPressed(GLFW.GLFW_KEY_P)) active.reload(chunk1);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) window.mouseState(true);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) window.mouseState(false);
 			update();
@@ -94,7 +185,7 @@ public class Main implements Runnable{
 				}
 			}
 		}
-		//renderer.renderObject(chunk.getGrid(), camera);
+		renderer.renderObject(grid1, camera);
 		window.swapBuffers();
 	}
 	

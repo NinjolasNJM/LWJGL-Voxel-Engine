@@ -2,15 +2,15 @@ package engine.objects;
 
 import engine.graphics.Material;
 import engine.graphics.Mesh;
-import engine.graphics.Vertex;
 import engine.maths.Vector2f;
 import engine.maths.Vector3f;
+import main.Main;
 
 public class BlockGrid {
-	private int x, y, z;
-	private Material terrain = new Material("/textures/terrain.png");
-	private GameObject[][][] grid = new GameObject[x][y][z];
-	
+	private int[][][] map;
+	//private int x, y, z;
+	private GameObject[][][] grid; // = new GameObject[map.length][map[0].length][map[0][0].length];
+	private Material terrain = Block.terrain;
 	private Vector2f d = new Vector2f(32.0f, 0.0f);
 	private Vector2f w = new Vector2f(64.0f, 0.0f);
 	private Vector2f s = new Vector2f(16.0f, 0.0f);
@@ -19,30 +19,7 @@ public class BlockGrid {
 	private Vector2f g = new Vector2f(48.0f, 0.0f);
 	private Vector2f t = new Vector2f(0.0f, 0.0f);
 	
-	/*private Vector2f[] grass = {
-			g, g, g, g, t, d
-	};
-	private Vector2f[] dirt = {
-			d, d, d, d, d, d
-	};
-	private Vector2f[] wood = {
-			w, w, w, w, w, w
-	};
-	private Vector2f[] stone = {
-			s, s, s, s, s, s
-	};
-	private Vector2f[] iron = {
-			i, i, i, i, i, i
-	};
-	private Vector2f[] diamond = {
-			a, a, a, a, a, a
-	}; */
-	
-	private Vertex[] airVertices = {};
-	private int[] airIndices = Block.blockIndices;
-	
-	//private GameObject grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
-	private Mesh air = new Mesh(airVertices, airIndices, terrain);
+	private Mesh air = new Mesh(Block.airVertices, Block.blockIndices, terrain);
 	private Mesh dirt = new Mesh(Block.blockVertices(d, d, d, d, d, d), Block.blockIndices, terrain);
 	private Mesh wood = new Mesh(Block.blockVertices(w, w, w, w, w, w), Block.blockIndices, terrain);
 	private Mesh stone = new Mesh(Block.blockVertices(s, s, s, s, s, s), Block.blockIndices, terrain);
@@ -52,64 +29,23 @@ public class BlockGrid {
 	private Mesh diamond2 = Mesh.translate(diamond, new Vector3f(0, 2, 0));
 	private Mesh grass = new Mesh(Block.blockVertices(g, g, g, g, t, d), Block.blockIndices, terrain);
 	private Mesh ditto = Mesh.combine(iron, diamond1); 
-	private Mesh ditto1 = Mesh.combine(Mesh.combine(iron, diamond1), diamond2); 
+	private Mesh ditto1 = Mesh.cuboid(grass, new Vector3f(10, 10, 16));
 	
-	private int[][][] map;
-	
-	/*private Mesh blockMesh() {
-		Mesh result = new Mesh(Block.blockVertices(g, g, g, g, g, g), Block.blockIndices, terrain);
-		
-		for(int i = 0; i < x; i++) {
-			for(int j = 0; j < y; j++) {
-				for(int k = 0; k < z; k++) {
-					Vector2f[] type;
-					System.out.println("Grid Indices is " + result.getIndices().toString());
-					switch(map[i][j][k]) {
-					case 0:
-						type = null;
-						break;
-					case 1:
-						type = grass;
-						break;
-					case 2:
-						type = dirt;
-						break;
-					case 3:
-						type = wood;
-						break;
-					case 4:
-						type = stone;
-						break;
-					case 5:
-						type = iron;
-						break;
-					default:
-						type = diamond;
-						break;
-					}
-					if (type != null) {
-						//System.out.println("Added block at (" + i + ", " + j + ", " + k + ") of type " + type);
 
-						result = Mesh.combine(result, new Mesh(Block.blockVertices(type, new Vector3f(i, j, k)), Block.blockIndices, terrain));
-					}
-					
-				}
-			}
-		} 
-			
-		//System.out.println("Grid Indices is " + result.getIndices().toString());
-		return result;
-	} */
+	
+	
 	//private Mesh debug = new Mesh(Block.blockVertices, Block.blockIndices, new Material("/textures/debug2.png"));
-
+	private GameObject grid1; // = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
 	
-	public BlockGrid(int x, int y, int z, int[][][] map) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		grid = new GameObject[x][y][z];
+	public BlockGrid(int[][][] map) {
 		this.map = map;
-		//grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
+		int x = map.length;
+		int y = map[0].length;
+		int z = map[0][0].length;
+		grid = new GameObject[x][y][z];
+		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
+
+		
 		
 	}
 	
@@ -125,11 +61,11 @@ public class BlockGrid {
 		ditto.create();
 		ditto1.create();
 		//debug.create();
-		//blockMesh().create();
 		
-		for(int i = 0; i < x; i++) {
-			for(int j = 0; j < y; j++) {
-				for(int k = 0; k < z; k++) {
+		
+		for(int i = 0; i < map.length; i++) {
+			for(int j = 0; j < map[0].length; j++) {
+				for(int k = 0; k < map[0][0].length; k++) {
 					Mesh type;
 					//System.out.println("Block at (" + i + ", " + j + ", " + k + ") is " + map[i][j][k]);
 					switch(map[i][j][k]) {
@@ -171,6 +107,9 @@ public class BlockGrid {
 				}
 			}
 		}
+		
+		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(new BlockGrid(Main.shape).getGrid()));
+		
 	}
 	
 	public void destroy() {
@@ -183,36 +122,49 @@ public class BlockGrid {
 		diamond2.destroy();
 		grass.destroy();
 		ditto.destroy();
-		ditto.destroy();
+		ditto1.destroy();
 		//debug.destroy();
 		//blockMesh().destroy();
 	}
 	
-	public void reload(int x, int y, int z, int[][][] map) {
+	public void reload(int[][][] map) {
 		destroy();
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		grid = new GameObject[x][y][z];
-		//grid = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blockMesh());
 		this.map = map;
+		int x = map.length;
+		int y = map[0].length;
+		int z = map[0][0].length;
+		grid = new GameObject[x][y][z];
+		//grid1 = new GameObject(new Vector3f(6, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), Mesh.blockMesh(grid));
+		//this.map = map;
 		create();
+	}
+	
+	public void reload(BlockGrid newGrid) {
+		reload(newGrid.getMap());
 	}
 
 	public GameObject[][][] getGrid() {
 		return grid;
 	}
+	
+	public GameObject getGrid1() {
+		return grid1;
+	}
 
 	public int getX() {
-		return x;
+		return map.length;
 	}
 
 	public int getY() {
-		return y;
+		return map[0].length;
 	}
 
 	public int getZ() {
-		return z;
+		return map[0][0].length;
+	} 
+	
+	public int[][][] getMap() {
+		return map;
 	}
 	
 }
