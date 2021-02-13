@@ -120,12 +120,9 @@ public class Main implements Runnable{
 			
 	};
 			
-	public BlockGrid chunk = new BlockGrid(atlas);
-	public BlockGrid chunk1 = new BlockGrid(atlas1);
+	public BlockGrid active = new BlockGrid(shape);
 	
-	public BlockGrid active = chunk;
-	
-	//public GameObject steve = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(player));
+	public Player steve = new Player(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Mesh(Player.playerVertices, Player.playerIndices, Player.skin));
 	
 	public Camera camera = new Camera(new Vector3f(0, 0, 1), new Vector3f(0, 0, 0));
 	
@@ -136,6 +133,7 @@ public class Main implements Runnable{
 		window.setBackgroundColor(0.4f, 0.7f, 1.0f);
 		window.create();
 		active.create();
+		steve.getMesh().create();
 		shader.create();
 		
 		
@@ -146,8 +144,6 @@ public class Main implements Runnable{
 		while (!window.shouldClose()) {
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_F5)) window.setFullScreen(!window.isFullScreen());
 			if (Input.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) return;
-			if (Input.isKeyPressed(GLFW.GLFW_KEY_O)) active.reload(chunk);
-			if (Input.isKeyPressed(GLFW.GLFW_KEY_P)) active.reload(chunk1);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) window.mouseState(true);
 			if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) window.mouseState(false);
 			update();
@@ -159,18 +155,21 @@ public class Main implements Runnable{
 	}
 	
 	private void update() {
-		window.update();
 		camera.update();
+		window.update();
+		//camera.update();
 	}
 	
 	private void render() {
 		renderer.renderObject(active, camera);
+		renderer.renderObject(steve, camera);
 		window.swapBuffers();
 	}
 	
 	private void close() {
 		window.destroy();
 		active.destroy();
+		steve.getMesh().destroy();
 		shader.destroy();
 	}
 	

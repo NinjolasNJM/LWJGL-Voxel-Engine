@@ -2,6 +2,7 @@ package engine.graphics;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -97,7 +98,6 @@ public class Mesh {
 		int[] indices = concatIndices(mesh1.getIndices(), mesh2.getIndices());
 		Mesh result = new Mesh(vertices, indices, mesh1.getMaterial());
 		
-		//System.out.println("Combined meshes " + mesh1 + " and " + mesh2);
 		return result;
 	}
 	
@@ -115,17 +115,12 @@ public class Mesh {
 		return result;
 	}
 	
-	public static Mesh blockMesh(Block[][][] grid) {
+	public static Mesh blockMesh(HashMap<Vector3f, Block> grid) {
 		Mesh result = new Mesh(Block.airVertices, Block.blockIndices, Block.terrain);
 		
-		for(int i = 0; i < grid.length; i++) {
-			for(int j = 0; j < grid[i].length; j++) {
-				for(int k = 0; k < grid[i][j].length; k++) {
-					result = Mesh.combine(result, Mesh.translate(grid[i][j][k].getMesh(), new Vector3f((float) i, (float) j, (float) k)));
-				}
-			}
+		for(Vector3f i : grid.keySet()) {
+			result = Mesh.combine(result, Mesh.translate(grid.get(i).getMesh(), i));
 		}
-		//System.out.println("grid1");
 		return result;
 	}
 	
